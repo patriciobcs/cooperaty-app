@@ -6,6 +6,9 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@craco/craco": "^5.6.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.15",
     "@ledgerhq/hw-transport-webusb": "^5.41.0",
     "@project-serum/associated-token": "0.1.0",
     "@project-serum/awesome-serum": "1.0.1",
@@ -39,9 +42,9 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "request-promise": "4.2.6",
     "styled-components": "^5.1.1",
-    "typescript": "^3.9.7",
-    "request-promise": "4.2.6"
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "predeploy": "git pull --ff-only && yarn && yarn build",

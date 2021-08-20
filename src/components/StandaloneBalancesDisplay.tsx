@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Popover, Row } from 'antd';
+import { Button, Col, Divider, Popover, Row, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import FloatingElement from './layout/FloatingElement';
 import styled from 'styled-components';
@@ -25,6 +25,8 @@ import { useInterval } from '../utils/useInterval';
 import { useLocalStorageState } from '../utils/utils';
 import { AUTO_SETTLE_DISABLED_OVERRIDE } from '../utils/preferences';
 import { useReferrer } from '../utils/referrer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 const RowBox = styled(Row)`
   padding-bottom: 20px;
@@ -267,7 +269,20 @@ export default function StandaloneBalancesDisplay() {
         ("00" + date2.getSeconds()).slice(-2);
   return (
     <FloatingElement style={{ flex: 1, paddingTop: 10 }}>
-      <h1>Historial</h1>
+      <RowBox  justify="space-between">
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+          <h1>Historial</h1>
+        </div>
+        <div style={{display: 'flex',  justifyContent:'flex-end', alignItems:'center'}}>
+          <Tooltip 
+          placement="bottomLeft"
+          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+              <span style={{color: "#1ce6d2"}}>
+                <FontAwesomeIcon size='lg' icon={faInfoCircle} />
+              </span>
+          </Tooltip>
+        </div>
+      </RowBox>
       
       <Row > <p> Total intentos: {data.stats.total_attemps}</p> </Row>
       <Row > <p> Respuestas correctas: {data.stats.correct_answers}</p> </Row>
