@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Col, Popover, Row, Select, Typography } from 'antd';
+import { Col, Row, Select, Tabs, Button } from 'antd';
 import styled from 'styled-components';
 import UserInfoTable from '../components/UserInfoTable';
 import StandaloneBalancesDisplay from '../components/StandaloneBalancesDisplay';
@@ -24,6 +24,14 @@ import { notify } from '../utils/notifications';
 import { useHistory, useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { TVChartContainer } from '../components/TradingView';
+import { TVChartContainer as TVChartContainer2} from '../components/TradingView';
+
+
+const { TabPane } = Tabs;
+
+function callback(key) {
+  console.log(key);
+}
 
 const { Option, OptGroup } = Select;
 
@@ -142,10 +150,22 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         flexWrap: 'nowrap',
       }}
     >
-      <Col flex="auto" style={{ height: '85vh' }}>
-        <Row style={{ height: '100%' }}>
-          <TVChartContainer />
-        </Row>
+      <Col flex="auto" style={{ width: '100%' }}>
+        <Tabs onChange={callback}>
+          <TabPane tab="Tab 1" key="1">
+          <Row style={{ height: '80vh' }}>
+            <TVChartContainer />
+          </Row>
+          </TabPane>
+          <TabPane tab="Tab 2" key="2">
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer2 />
+            </Row>
+          </TabPane>
+          <TabPane tab="Tab 3" key="3">
+            Content of Tab Pane 3
+          </TabPane>
+        </Tabs>
       </Col>
       <Col
         flex="400px"
@@ -161,22 +181,23 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
 const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
   return (
     <>
-      <Row style={{ height: '85vh' }}>
-        <TVChartContainer />
-      </Row>
-      <Row
-        style={{
-          height: '620px',
-        }}
-      >
-        <Col
-          flex="400px"
-          style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-        >
-          <TradeForm setChangeOrderRef={onChangeOrderRef} />
-          <StandaloneBalancesDisplay />
-        </Col>
-      </Row>
+      <Col flex="auto" style={{ width: '100%' }}>
+        <Tabs onChange={callback}>
+          <TabPane tab="Tab 1" key="1">
+          <Row style={{ height: '80vh' }}>
+            <TVChartContainer />
+          </Row>
+          </TabPane>
+          <TabPane tab="Tab 2" key="2">
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer2 />
+            </Row>
+          </TabPane>
+          <TabPane tab="Tab 3" key="3">
+            Content of Tab Pane 3
+          </TabPane>
+        </Tabs>
+      </Col>
     </>
   );
 };
@@ -184,9 +205,23 @@ const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
 const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
   return (
     <>
-      <Row style={{ height: '85vh' }}>
-        <TVChartContainer />
-      </Row>
+      <Col flex="auto" style={{ width: '100%' }}>
+        <Tabs onChange={callback}>
+          <TabPane tab="Tab 1" key="1">
+          <Row style={{ height: '80vh' }}>
+            <TVChartContainer />
+          </Row>
+          </TabPane>
+          <TabPane tab="Tab 2" key="2">
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer2 />
+            </Row>
+          </TabPane>
+          <TabPane tab="Tab 3" key="3">
+            Content of Tab Pane 3
+          </TabPane>
+        </Tabs>
+      </Col>
       <Row>
         <Col xs={24} sm={12} style={{ height: '100%', display: 'flex' }}>
           <TradeForm style={{ flex: 1 }} setChangeOrderRef={onChangeOrderRef} />
