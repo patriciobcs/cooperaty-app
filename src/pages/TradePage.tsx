@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Col, Popover, Row, Select, Typography } from 'antd';
+import { Col, Row, Select, Tabs, Button } from 'antd';
 import styled from 'styled-components';
 import UserInfoTable from '../components/UserInfoTable';
 import StandaloneBalancesDisplay from '../components/StandaloneBalancesDisplay';
@@ -24,6 +24,20 @@ import { notify } from '../utils/notifications';
 import { useHistory, useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { TVChartContainer } from '../components/TradingView';
+import { TVChartContainer as TVChartContainer2} from '../components/TradingView';
+
+
+const { TabPane } = Tabs;
+
+//const [type, setType] = useState('Bitfinex:BTC/USD')
+
+
+
+
+export let type2= "Bitfinex:BTC/USD";
+
+
+
 
 const { Option, OptGroup } = Select;
 
@@ -135,6 +149,38 @@ const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
 };
 
 const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
+  
+    const [chart, setChart] = useState('Bitfinex:BTC/USD')
+  
+    const typechart = (value) => {
+      callback(value)
+      setChart(value)
+    }
+
+    const grafico = (grafico) => {
+      return <TVChartContainer type={grafico}></TVChartContainer>
+    }
+  
+
+  function callback(key) {
+    console.log(key);
+
+    switch(key){
+      case '1':
+        type2 = "Bitfinex:BTC/USD"
+        typechart('1')
+        console.log("valor hook: ", chart)
+      case '2':
+        type2 = "Bitfinex:ETH/USD"
+        typechart('2')
+        console.log("valor hook: ", chart)
+      case '3':
+        type2 = "Bitfinex:ETH/USD"
+        typechart('3')
+        console.log("valor hook: ", chart)
+    }
+  }
+
   return (
     <Row
       style={{
@@ -142,10 +188,13 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         flexWrap: 'nowrap',
       }}
     >
-      <Col flex="auto" style={{ height: '85vh' }}>
-        <Row style={{ height: '100%' }}>
-          <TVChartContainer />
+      <Col flex="auto" style={{ width: '100%' }}>
+        <Row >
+          <Button type="primary" onClick={() => setChart('Bitfinex:BTC/USD')}>Tipo1</Button>
+          <Button type="primary" onClick={() => setChart('Bitfinex:ETH/USD')}>Tipo2</Button>
+          <Button type="primary" onClick={() => setChart('Bitfinex:SOL/USD')}>Tipo3</Button>
         </Row>
+        {grafico(chart)}
       </Col>
       <Col
         flex="400px"
@@ -159,34 +208,73 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
 };
 
 const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
+  function callback(key) {
+    console.log(key);
+  
+    switch(key){
+      case 1:
+        type2 = "Bitfinex:BTC/USD"
+      case 2:
+        type2 = "Bitfinex:ETH/USD"
+      case 3:
+        type2 = "Bitfinex:ETH/USD"
+    }
+  }
   return (
     <>
-      <Row style={{ height: '85vh' }}>
-        <TVChartContainer />
-      </Row>
-      <Row
-        style={{
-          height: '620px',
-        }}
-      >
-        <Col
-          flex="400px"
-          style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-        >
-          <TradeForm setChangeOrderRef={onChangeOrderRef} />
-          <StandaloneBalancesDisplay />
-        </Col>
-      </Row>
+      <Col flex="auto" style={{ width: '100%' }}>
+        <Tabs onChange={callback}>
+          <TabPane tab="Tab 1" key="1">
+          <Row style={{ height: '80vh' }}>
+            <TVChartContainer />
+          </Row>
+          </TabPane>
+          <TabPane tab="Tab 2" key="2">
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer2 />
+            </Row>
+          </TabPane>
+          <TabPane tab="Tab 3" key="3">
+            Content of Tab Pane 3
+          </TabPane>
+        </Tabs>
+      </Col>
     </>
   );
 };
 
 const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
+  function callback(key) {
+    console.log(key);
+  
+    switch(key){
+      case 1:
+        type2 = "Bitfinex:BTC/USD"
+      case 2:
+        type2 = "Bitfinex:ETH/USD"
+      case 3:
+        type2 = "Bitfinex:ETH/USD"
+    }
+  }
   return (
     <>
-      <Row style={{ height: '85vh' }}>
-        <TVChartContainer />
-      </Row>
+      <Col flex="auto" style={{ width: '100%' }}>
+        <Tabs onChange={callback}>
+          <TabPane tab="Tab 1" key="1" >
+          <Row style={{ height: '80vh' }}>
+            <TVChartContainer />
+          </Row>
+          </TabPane>
+          <TabPane tab="Tab 2" key="2">
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer />
+            </Row>
+          </TabPane>
+          <TabPane tab="Tab 3" key="3">
+            Content of Tab Pane 3
+          </TabPane>
+        </Tabs>
+      </Col>
       <Row>
         <Col xs={24} sm={12} style={{ height: '100%', display: 'flex' }}>
           <TradeForm style={{ flex: 1 }} setChangeOrderRef={onChangeOrderRef} />

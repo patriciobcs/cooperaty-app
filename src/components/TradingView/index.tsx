@@ -33,7 +33,7 @@ export interface ChartContainerProps {
 
 export interface ChartContainerState {}
 
-export const TVChartContainer = () => {
+export const TVChartContainer = (props) => {
   // let datafeed = useTvDataFeed();
   const defaultProps: ChartContainerProps = {
     symbol: 'Coinbase:BTC/USD',
@@ -66,8 +66,7 @@ export const TVChartContainer = () => {
     });
 
     const widgetOptions: ChartingLibraryWidgetOptions = {
-      symbol:
-      'Bitfinex:BTC/USD',
+      symbol: props.type,
       // BEWARE: no trailing slash is expected in feed URL
       // tslint:disable-next-line:no-any
       // @ts-ignore
