@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Col, Row, Select, Tabs, Button } from 'antd';
+import { Col, Row, Select, Tabs, Button, Typography} from 'antd';
 import styled from 'styled-components';
 import UserInfoTable from '../components/UserInfoTable';
 import StandaloneBalancesDisplay from '../components/StandaloneBalancesDisplay';
@@ -29,10 +29,20 @@ import { TVChartContainer as TVChartContainer2} from '../components/TradingView'
 
 const { TabPane } = Tabs;
 
-//const [type, setType] = useState('Bitfinex:BTC/USD')
+const TabButton = styled(Button)`
+  color: #1ce6d2;
+  border-width: 1px;
+  margin-right: 5px;
+  active {
+    background-color: #DF02F1;
+    color: #DF02F1;
+  }
+`;
 
-
-
+const { Title } = Typography;
+const Moda = styled(Title)`
+  margin-right: 5px;
+`;
 
 export let type2= "Bitfinex:BTC/USD";
 
@@ -190,9 +200,10 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
     >
       <Col flex="auto" style={{ width: '100%' }}>
         <Row >
-          <Button type="primary" onClick={() => setChart('Bitfinex:BTC/USD')}>Tipo1</Button>
-          <Button type="primary" onClick={() => setChart('Bitfinex:ETH/USD')}>Tipo2</Button>
-          <Button type="primary" onClick={() => setChart('Bitfinex:SOL/USD')}>Tipo3</Button>
+          <Moda level={4}>Modalidad</Moda>
+          <TabButton onClick={() => setChart('Bitfinex:BTC/USD')}>Tipo1</TabButton>
+          <TabButton onClick={() => setChart('Bitfinex:ETH/USD')}>Tipo2</TabButton>
+          <TabButton onClick={() => setChart('Bitfinex:SOL/USD')}>Tipo3</TabButton>
         </Row>
         {grafico(chart)}
       </Col>
