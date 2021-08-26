@@ -1,4 +1,4 @@
-import {Button, Input, Radio, Slider, Switch, Row, Col } from 'antd';
+import {Button, Input, Radio, Slider, Switch, Row, Col, Tooltip } from 'antd';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
@@ -21,6 +21,9 @@ import {getUnixTs, placeOrder} from '../utils/send';
 import {SwitchChangeEventHandler} from 'antd/es/switch';
 import {refreshCache} from '../utils/fetch-loop';
 import tuple from 'immutable-tuple';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+
 
 const RowBox = styled(Row)`
   padding-bottom: 20px;
@@ -280,14 +283,24 @@ export default function TradeForm({
       setSubmitting(false);
     }
   }
-
   return (
     <FloatingElement
       style={{ display: 'flex', flexDirection: 'column', ...style }}
     >
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-        <h1> Escoja una opción</h1>
-      </div>
+      <RowBox align="middle" justify="space-between">
+        <div style={{display: 'flex',  justifyContent:'flex-start', alignItems:'center'}}>
+          <h1> Escoja una opción</h1>
+        </div>
+        <div style={{display: 'flex',  justifyContent:'flex-end', alignItems:'center'}}>
+          <Tooltip 
+          placement="bottomLeft"
+          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+              <span style={{color: "#1ce6d2"}}>
+                <FontAwesomeIcon size='lg' icon={faInfoCircle} />
+              </span>
+          </Tooltip>
+        </div>
+      </RowBox>
       <div style={{ flex: 1 }}>
       <RowBox align="middle" justify="space-around">
           <Col style={{ width: 150 }}>
