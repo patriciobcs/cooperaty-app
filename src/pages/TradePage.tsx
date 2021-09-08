@@ -83,6 +83,8 @@ export default function TradePage() {
   );
 }
 
+
+
 function TradePageInner() {
 
   const [handleDeprecated, setHandleDeprecated] = useState(false);
@@ -159,37 +161,34 @@ const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
 };
 
 const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
-  
-    const [chart, setChart] = useState('Bitfinex:BTC/USD')
-  
-    const typechart = (value) => {
-      callback(value)
-      setChart(value)
+    
+    const scalping = {
+      symbol: "Bitfinex:BTC/USD",
+      modality: "scalping"
     }
+    const intra = {
+      symbol: "Bitfinex:ETH/USD",
+      modality: "intra"
+    }
+    const swing = {
+      symbol: "Bitfinex:SOL/USD",
+      modality: "swing"
+    }
+    const position = {
+      symbol: "Bitfinex:ADA/USD",
+      modality: "position"
+    }
+    
+    const [chart, setChart] = useState(scalping)
+  
+
 
     const grafico = (grafico) => {
-      return <TVChartContainer type={grafico}></TVChartContainer>
+      return <TVChartContainer info={grafico}></TVChartContainer>
     }
   
 
-  function callback(key) {
-    console.log(key);
-
-    switch(key){
-      case '1':
-        type2 = "Bitfinex:BTC/USD"
-        typechart('1')
-        console.log("valor hook: ", chart)
-      case '2':
-        type2 = "Bitfinex:ETH/USD"
-        typechart('2')
-        console.log("valor hook: ", chart)
-      case '3':
-        type2 = "Bitfinex:ETH/USD"
-        typechart('3')
-        console.log("valor hook: ", chart)
-    }
-  }
+  
 
   return (
     <Row
@@ -201,9 +200,10 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       <Col flex="auto" style={{ width: '100%' }}>
         <Row >
           <Moda level={4}>Modalidad</Moda>
-          <TabButton onClick={() => setChart('Bitfinex:BTC/USD')}>Tipo1</TabButton>
-          <TabButton onClick={() => setChart('Bitfinex:ETH/USD')}>Tipo2</TabButton>
-          <TabButton onClick={() => setChart('Bitfinex:SOL/USD')}>Tipo3</TabButton>
+          <TabButton onClick={() => setChart(scalping)}>Scalping</TabButton>
+          <TabButton onClick={() => setChart(intra)}>Intraday</TabButton>
+          <TabButton onClick={() => setChart(swing)}>Swing</TabButton>
+          <TabButton onClick={() => setChart(position)}>Position</TabButton>
         </Row>
         {grafico(chart)}
       </Col>

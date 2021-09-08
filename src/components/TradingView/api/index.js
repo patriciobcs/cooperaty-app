@@ -8,12 +8,12 @@ const config = {
 
 export default {
 	onReady: cb => {
-	console.log('=====onReady running')	
+	//console.log('=====onReady running')	
 		setTimeout(() => cb(config), 0)
 		
 	},
 	searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
-		console.log('====Search Symbols running')
+		//console.log('====Search Symbols running')
 	},
 	resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
 		// expects a symbolInfo object in response

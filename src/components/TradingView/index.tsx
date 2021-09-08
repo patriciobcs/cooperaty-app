@@ -10,7 +10,10 @@ import * as saveLoadAdapter from './saveLoadAdapter';
 import { flatten } from '../../utils/utils';
 import { BONFIDA_DATA_FEED } from '../../utils/bonfidaConnector';
 import Datafeed from './api/'
-
+import scalping from './api/scalping'
+import intra from './api/intra'
+import swing from './api/swing'
+import position from './api/position';
 export interface ChartContainerProps {
   symbol: ChartingLibraryWidgetOptions['symbol'];
   interval: ChartingLibraryWidgetOptions['interval'];
@@ -35,14 +38,16 @@ export interface ChartContainerState {}
 
 export const TVChartContainer = (props) => {
   // let datafeed = useTvDataFeed();
-  const defaultProps: ChartContainerProps = {
+  let Data = Datafeed
+
+  let defaultProps: ChartContainerProps = {
     symbol: 'Coinbase:BTC/USD',
     // @ts-ignore
     interval: '15',
     auto_save_delay: 5,
     theme: 'Dark',
     containerId: 'tv_chart_container',
-    // datafeed: datafeed,
+    //datafeed: Datafeed,
     libraryPath: '/charting_library/',
     chartsStorageApiVersion: '1.1',
     clientId: 'tradingview.com',
@@ -53,12 +58,46 @@ export const TVChartContainer = (props) => {
     studiesOverrides: {},
   };
 
+
+  if (props.info.modality == "scalping"){
+    Data = scalping
+    // @ts-ignore
+    defaultProps.interval = '5'
+    console.log(props.info.modality)
+    
+  }
+  if (props.info.modality == "intra"){
+    Data = intra
+    // @ts-ignore
+    defaultProps.interval = '60'
+    console.log(props.info.modality)
+    
+  }
+  if (props.info.modality == "swing"){
+    Data = swing
+    // @ts-ignore
+    defaultProps.interval = '240'
+    console.log(props.info.modality)
+    
+  }
+  if (props.info.modality == "position"){
+    Data = position
+    // @ts-ignore
+    defaultProps.interval = '1W'
+    console.log(props.info.modality)
+    
+  }
+
+
+  
+  
   const tvWidgetRef = React.useRef<IChartingLibraryWidget | null>(null);
   const { market } = useMarket();
 
   const chartProperties = JSON.parse(
     localStorage.getItem('chartproperties') || '{}',
   );
+  
 
   React.useEffect(() => {
     const savedProperties = flatten(chartProperties, {
@@ -66,20 +105,21 @@ export const TVChartContainer = (props) => {
     });
 
     const widgetOptions: ChartingLibraryWidgetOptions = {
-      symbol: props.type,
+      symbol: props.info.symbol,
       // BEWARE: no trailing slash is expected in feed URL
       // tslint:disable-next-line:no-any
       // @ts-ignore
       // datafeed: datafeed,
       // @ts-ignore
-      datafeed: Datafeed,
+      
+      datafeed: Data,
       interval: defaultProps.interval as ChartingLibraryWidgetOptions['interval'],
       container_id: defaultProps.containerId as ChartingLibraryWidgetOptions['container_id'],
       library_path: defaultProps.libraryPath as string,
       auto_save_delay: 5,
 
       locale: 'en',
-      disabled_features: ['use_localstorage_for_settings'],
+      disabled_features: ['use_localstorage_for_settings', 'timeframes_toolbar', 'go_to_date', 'header_symbol_search'],
       enabled_features: ['study_templates'],
       load_last_chart: true,
       client_id: defaultProps.clientId,
