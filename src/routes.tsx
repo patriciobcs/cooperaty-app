@@ -8,6 +8,7 @@ import NewPoolPage from './pages/pools/NewPoolPage';
 import PoolPage from './pages/pools/PoolPage';
 import PoolListPage from './pages/pools/PoolListPage';
 import { getTradePageUrl } from './utils/markets';
+import { PracticeProvider } from './utils/practice';
 
 export function Routes() {
   return (

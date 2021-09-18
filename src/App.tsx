@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Routes } from './routes';
 import { PreferencesProvider } from './utils/preferences';
 import { ReferrerProvider } from './utils/referrer';
+import { PracticeProvider } from './utils/practice';
 
 export default function App() {
   return (
@@ -19,7 +20,9 @@ export default function App() {
             <WalletProvider>
               <PreferencesProvider>
                 <Suspense fallback={() => <Spin size="large" />}>
+                  <PracticeProvider>
                   <Routes />
+                  </PracticeProvider>
                 </Suspense>
               </PreferencesProvider>
             </WalletProvider>

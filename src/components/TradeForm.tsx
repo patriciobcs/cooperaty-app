@@ -1,5 +1,5 @@
-import {Button, Input, Radio, Slider, Switch, Row, Col, Tooltip } from 'antd';
-import React, {useEffect, useState} from 'react';
+import { Button, Input, Radio, Slider, Switch, Row, Col, Tooltip } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   useFeeDiscountKeys,
@@ -12,17 +12,18 @@ import {
   useSelectedQuoteCurrencyAccount,
   useSelectedQuoteCurrencyBalances,
 } from '../utils/markets';
-import {useWallet} from '../utils/wallet';
-import {notify} from '../utils/notifications';
-import {floorToDecimal, getDecimalCount, roundToDecimal,} from '../utils/utils';
-import {useSendConnection} from '../utils/connection';
+import { useWallet } from '../utils/wallet';
+import { notify } from '../utils/notifications';
+import { floorToDecimal, getDecimalCount, roundToDecimal, } from '../utils/utils';
+import { useSendConnection } from '../utils/connection';
 import FloatingElement from './layout/FloatingElement';
-import {getUnixTs, placeOrder} from '../utils/send';
-import {SwitchChangeEventHandler} from 'antd/es/switch';
-import {refreshCache} from '../utils/fetch-loop';
+import { getUnixTs, placeOrder } from '../utils/send';
+import { SwitchChangeEventHandler } from 'antd/es/switch';
+import { refreshCache } from '../utils/fetch-loop';
 import tuple from 'immutable-tuple';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { PracticeProvider, usePractice, PracticeContext } from '../utils/practice'
 
 
 const RowBox = styled(Row)`
@@ -127,8 +128,7 @@ export default function TradeForm({
         await market?.findBestFeeDiscountKey(sendConnection, publicKey);
         const endTime = getUnixTs();
         console.log(
-          `Finished refreshing accounts for ${market.address} after ${
-            endTime - startTime
+          `Finished refreshing accounts for ${market.address} after ${endTime - startTime
           }`,
         );
       } catch (e) {
@@ -276,6 +276,7 @@ export default function TradeForm({
       console.warn(e);
       notify({
         message: 'Error placing order',
+        //@ts-ignore
         description: e.message,
         type: 'error',
       });
@@ -283,48 +284,58 @@ export default function TradeForm({
       setSubmitting(false);
     }
   }
+
+  //const {practice, setPractice} = useContext(PracticeContext)
+
+  const {practice, setPractice, skip, predict} = useContext(PracticeContext)
+  
+
   return (
-    <FloatingElement
-      style={{ display: 'flex', flexDirection: 'column', ...style }}
-    >
-      <RowBox align="middle" justify="space-between">
-        <div style={{display: 'flex',  justifyContent:'flex-start', alignItems:'center'}}>
-          <h1> Escoja una opción</h1>
-        </div>
-        <div style={{display: 'flex',  justifyContent:'flex-end', alignItems:'center'}}>
-          <Tooltip 
-          placement="bottomLeft"
-          title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
-              <span style={{color: "#1ce6d2"}}>
+    
+      <FloatingElement
+        style={{ display: 'flex', flexDirection: 'column', ...style }}
+      >
+        <RowBox align="middle" justify="space-between">
+          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <h1> Escoja una opción</h1>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <Tooltip
+              placement="bottomLeft"
+              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+              <span style={{ color: "#1ce6d2" }}>
                 <FontAwesomeIcon size='lg' icon={faInfoCircle} />
               </span>
-          </Tooltip>
+            </Tooltip>
+          </div>
+        </RowBox>
+        <div style={{ flex: 1 }}>
+          <RowBox align="middle" justify="space-around">
+            <Col style={{ width: 150 }}>
+              <ActionButton2
+                block
+                size="large"
+                onClick={() => predict(true)}
+              >
+                Sube
+              </ActionButton2>
+            </Col>
+            <Col style={{ width: 150 }}>
+              <ActionButton block size="large" onClick={() => skip()} >
+                Baja
+              </ActionButton>
+            </Col>
+          </RowBox>
+          <RowBox align="middle" justify="space-around">
+            <Col style={{ width: 325 }}>
+              <ActionButton3 onClick={() => skip()} block size="large">
+                Omitir
+              </ActionButton3>
+            </Col>
+            <Col>{practice.modality}</Col>
+          </RowBox>
         </div>
-      </RowBox>
-      <div style={{ flex: 1 }}>
-      <RowBox align="middle" justify="space-around">
-          <Col style={{ width: 150 }}>
-            <ActionButton2
-              block
-              size="large"
-            >
-              Sube
-            </ActionButton2>
-          </Col>
-          <Col style={{ width: 150 }}>
-            <ActionButton block size="large">
-              Baja
-            </ActionButton>
-          </Col>
-        </RowBox>
-        <RowBox align="middle" justify="space-around">
-          <Col style={{ width: 325 }}>
-            <ActionButton3 block size="large">
-              Omitir
-            </ActionButton3>
-          </Col>
-        </RowBox>
-      </div>
-    </FloatingElement>
+      </FloatingElement>
+
   );
 }

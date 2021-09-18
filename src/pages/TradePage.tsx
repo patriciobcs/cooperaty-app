@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Col, Row, Select, Tabs, Button, Typography} from 'antd';
+import React, { useCallback, useEffect, useRef, useState, useContext } from 'react';
+import { Col, Row, Select, Tabs, Button, Typography } from 'antd';
 import styled from 'styled-components';
 import UserInfoTable from '../components/UserInfoTable';
 import StandaloneBalancesDisplay from '../components/StandaloneBalancesDisplay';
@@ -24,7 +24,8 @@ import { notify } from '../utils/notifications';
 import { useHistory, useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { TVChartContainer } from '../components/TradingView';
-import { TVChartContainer as TVChartContainer2} from '../components/TradingView';
+import { TVChartContainer as TVChartContainer2 } from '../components/TradingView';
+import { PracticeProvider, usePractice, PracticeContext } from '../utils/practice'
 
 
 const { TabPane } = Tabs;
@@ -44,7 +45,7 @@ const Moda = styled(Title)`
   margin-right: 5px;
 `;
 
-export let type2= "Bitfinex:BTC/USD";
+export let type2 = "Bitfinex:BTC/USD";
 
 
 
@@ -161,36 +162,41 @@ const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
 };
 
 const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
-    
-    const scalping = {
-      symbol: "Bitfinex:BTC/USD",
-      modality: "scalping"
-    }
-    const intra = {
-      symbol: "Bitfinex:ETH/USD",
-      modality: "intra"
-    }
-    const swing = {
-      symbol: "Bitfinex:SOL/USD",
-      modality: "swing"
-    }
-    const position = {
-      symbol: "Bitfinex:ADA/USD",
-      modality: "position"
-    }
-    
-    const [chart, setChart] = useState(scalping)
-  
+
+  const scalping = {
+    symbol: "Bitfinex:BTC/USD",
+    modality: "scalping",
+    skip: false
+  }
+  const intra = {
+    symbol: "Bitfinex:ETH/USD",
+    modality: "intra",
+    skip: false
+  }
+  const swing = {
+    symbol: "Bitfinex:SOL/USD",
+    modality: "swing",
+    skip: false
+  }
+  const position = {
+    symbol: "Bitfinex:ADA/USD",
+    modality: "position",
+    skip: false
+  }
+
+  const { practice, setPractice } = useContext(PracticeContext)
 
 
-    const grafico = (grafico) => {
-      return <TVChartContainer info={grafico}></TVChartContainer>
-    }
-  
 
-  
+  const grafico = (grafico) => {
+    return <TVChartContainer info={grafico}></TVChartContainer>
+  }
+
+
+
 
   return (
+
     <Row
       style={{
         minHeight: '620px',
@@ -200,29 +206,32 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       <Col flex="auto" style={{ width: '100%' }}>
         <Row >
           <Moda level={4}>Modalidad</Moda>
-          <TabButton onClick={() => setChart(scalping)}>Scalping</TabButton>
-          <TabButton onClick={() => setChart(intra)}>Intraday</TabButton>
-          <TabButton onClick={() => setChart(swing)}>Swing</TabButton>
-          <TabButton onClick={() => setChart(position)}>Position</TabButton>
+          <TabButton onClick={() => setPractice(scalping)}>Scalping</TabButton>
+          <TabButton onClick={() => setPractice(intra)}>Intraday</TabButton>
+          <TabButton onClick={() => setPractice(swing)}>Swing</TabButton>
+          <TabButton onClick={() => setPractice(position)}>Position</TabButton>
         </Row>
-        {grafico(chart)}
+        {grafico(practice)}
       </Col>
       <Col
         flex="400px"
         style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
-        <TradeForm setChangeOrderRef={onChangeOrderRef} />
-        <StandaloneBalancesDisplay />
+        
+          <TradeForm setChangeOrderRef={onChangeOrderRef} />
+          <StandaloneBalancesDisplay />
+        
       </Col>
     </Row>
+
   );
 };
 
 const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
   function callback(key) {
     console.log(key);
-  
-    switch(key){
+
+    switch (key) {
       case 1:
         type2 = "Bitfinex:BTC/USD"
       case 2:
@@ -236,9 +245,9 @@ const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
       <Col flex="auto" style={{ width: '100%' }}>
         <Tabs onChange={callback}>
           <TabPane tab="Tab 1" key="1">
-          <Row style={{ height: '80vh' }}>
-            <TVChartContainer />
-          </Row>
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer />
+            </Row>
           </TabPane>
           <TabPane tab="Tab 2" key="2">
             <Row style={{ height: '80vh' }}>
@@ -257,8 +266,8 @@ const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
 const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
   function callback(key) {
     console.log(key);
-  
-    switch(key){
+
+    switch (key) {
       case 1:
         type2 = "Bitfinex:BTC/USD"
       case 2:
@@ -272,9 +281,9 @@ const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
       <Col flex="auto" style={{ width: '100%' }}>
         <Tabs onChange={callback}>
           <TabPane tab="Tab 1" key="1" >
-          <Row style={{ height: '80vh' }}>
-            <TVChartContainer />
-          </Row>
+            <Row style={{ height: '80vh' }}>
+              <TVChartContainer />
+            </Row>
           </TabPane>
           <TabPane tab="Tab 2" key="2">
             <Row style={{ height: '80vh' }}>
