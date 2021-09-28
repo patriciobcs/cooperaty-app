@@ -287,55 +287,73 @@ export default function TradeForm({
 
   //const {practice, setPractice} = useContext(PracticeContext)
 
-  const {practice, setPractice, skip, predict} = useContext(PracticeContext)
-  
+  const { practice, setPractice, skip, predict } = useContext(PracticeContext)
+
 
   return (
-    
-      <FloatingElement
-        style={{ display: 'flex', flexDirection: 'column', ...style }}
-      >
-        <RowBox align="middle" justify="space-between">
-          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <h1> Escoja una opción</h1>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Tooltip
-              placement="bottomLeft"
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
-              <span style={{ color: "#1ce6d2" }}>
-                <FontAwesomeIcon size='lg' icon={faInfoCircle} />
-              </span>
-            </Tooltip>
-          </div>
-        </RowBox>
-        <div style={{ flex: 1 }}>
-          <RowBox align="middle" justify="space-around">
-            <Col style={{ width: 150 }}>
-              <ActionButton2
-                block
-                size="large"
-                onClick={() => predict(true)}
-              >
-                Sube
-              </ActionButton2>
-            </Col>
-            <Col style={{ width: 150 }}>
-              <ActionButton block size="large" onClick={() => skip()} >
-                Baja
-              </ActionButton>
-            </Col>
-          </RowBox>
-          <RowBox align="middle" justify="space-around">
-            <Col style={{ width: 325 }}>
-              <ActionButton3 onClick={() => skip()} block size="large">
-                Omitir
-              </ActionButton3>
-            </Col>
-            <Col>{practice.modality}</Col>
-          </RowBox>
+
+    <FloatingElement
+      style={{ display: 'flex', flexDirection: 'column', ...style }}
+    >
+      <RowBox align="middle" justify="space-between">
+        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+          <h1> Escoja una opción</h1>
         </div>
-      </FloatingElement>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <Tooltip
+            placement="bottomLeft"
+            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+            <span style={{ color: "#1ce6d2" }}>
+              <FontAwesomeIcon size='lg' icon={faInfoCircle} />
+            </span>
+          </Tooltip>
+        </div>
+      </RowBox>
+      <div style={{ flex: 1 }}>
+        <RowBox align="middle" justify="space-around">
+          <Col style={{ width: 150 }}>
+            <ActionButton2
+              block
+              size="large"
+              onClick={() => {
+                connected ? predict(true) :
+                  notify({
+                    message: "Aviso",
+                    description: "Se necesita conectar una wallet para usar esta funcionalidad",
+                    type: "warning"
+                  })
+              }
+              }
+            >
+              Sube
+            </ActionButton2>
+          </Col>
+          <Col style={{ width: 150 }}>
+            <ActionButton block size="large" onClick={() => connected ? predict(false) :
+              notify({
+                message: "Aviso",
+                description: "Se necesita conectar una wallet para usar esta funcionalidad",
+                type: "warning"
+              })} >
+              Baja
+            </ActionButton>
+          </Col>
+        </RowBox>
+        <RowBox align="middle" justify="space-around">
+          <Col style={{ width: 325 }}>
+            <ActionButton3 onClick={() => connected ? skip() :
+              notify({
+                message: "Aviso",
+                description: "Se necesita conectar una wallet para usar esta funcionalidad",
+                type: "warning"
+              })} block size="large">
+              Omitir
+            </ActionButton3>
+          </Col>
+          <Col>{practice.modality}</Col>
+        </RowBox>
+      </div>
+    </FloatingElement >
 
   );
 }

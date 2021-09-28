@@ -99,6 +99,8 @@ export function WalletProvider({ children }) {
   useEffect(() => {
     if (wallet) {
       wallet.on('connect', () => {
+        //en: message: 'Wallet update',
+        //description: 'Connected to wallet ' + keyToDisplay,
         if (wallet?.publicKey) {
           console.log('connected');
           localStorage.removeItem('feeDiscountKey');
@@ -113,20 +115,20 @@ export function WalletProvider({ children }) {
                   walletPublicKey.length - 7,
                   walletPublicKey.length,
                 )}`
-              : walletPublicKey;
-
+              : walletPublicKey;  
           notify({
-            message: 'Wallet update',
-            description: 'Connected to wallet ' + keyToDisplay,
+            message: 'Actualización de estado',
+            description: 'Conectado al wallet ' + keyToDisplay,
           });
         }
       });
-
+      //message: 'Wallet update',
+      //description: 'Disconnected from wallet',
       wallet.on('disconnect', () => {
         setConnected(false);
         notify({
-          message: 'Wallet update',
-          description: 'Disconnected from wallet',
+          message: 'Actualización de estado',
+          description: 'Desconectado del wallet',
         });
         localStorage.removeItem('feeDiscountKey');
       });
@@ -168,7 +170,7 @@ export function WalletProvider({ children }) {
           providerUrl,
       }}
     >
-      {children}
+      {children} 
       <Modal
         title="Select Wallet"
         okText="Connect"

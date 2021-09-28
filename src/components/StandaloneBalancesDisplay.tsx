@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Popover, Row, Tooltip } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import FloatingElement from './layout/FloatingElement';
 import styled from 'styled-components';
 import { CheckCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined, SyncOutlined } from '@ant-design/icons';
@@ -27,10 +27,11 @@ import { AUTO_SETTLE_DISABLED_OVERRIDE } from '../utils/preferences';
 import { useReferrer } from '../utils/referrer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import { PracticeProvider, usePractice } from '../utils/practice'
+import { PracticeContext, PracticeProvider, usePractice } from '../utils/practice'
 import { HistoryErrorAPI } from './History/HistoryErrorAPI'
 import { HistoryConectingAPI } from '../components/History/HistoryConectingAPI'
 import { HistoryAdviceWallet } from '../components/History/HistoryAdviceWallet'
+
 
 
 const RowBox = styled(Row)`
@@ -55,7 +56,9 @@ const ActionButton = styled(Button)`
 let conected_api = 'init'
 
 export default function StandaloneBalancesDisplay() {
-  const [data, setData] = useState({
+  
+  const { history, setHistory } = useContext(PracticeContext)
+  /*const [data, setData] = useState({
     "historial": [
 
       {
@@ -71,7 +74,11 @@ export default function StandaloneBalancesDisplay() {
       "performance": 75.0,
       "total_attemps": 4
     }
-  });
+  }); */
+
+
+
+
 
   const { baseCurrency, quoteCurrency, market } = useMarket();
   const balances = useBalances();
@@ -227,7 +234,7 @@ export default function StandaloneBalancesDisplay() {
       try {
         let response = await fetch(API_URL + pkey)
         let resp = await response.json()
-        setData(resp);
+        setHistory(resp);
         console.log("RESPUESTA", resp)
         conected_api = 'ok'
       }
@@ -250,7 +257,7 @@ export default function StandaloneBalancesDisplay() {
 
 
   if (conected_api === 'ok' && connected) {
-    const date2 = new Date(data.stats.last_attemp_date)
+    const date2 = new Date(history.stats.last_attemp_date)
     const dformat2 =
       ("00" + date2.getDate()).slice(-2) + "/" +
       ("00" + (date2.getMonth() + 1)).slice(-2) + "/" +
@@ -276,12 +283,12 @@ export default function StandaloneBalancesDisplay() {
           </div>
         </RowBox>
 
-        <Row > <p> Total intentos: {data.stats.total_attemps}</p> </Row>
-        <Row > <p> Respuestas correctas: {data.stats.correct_answers}</p> </Row>
-        <Row > <p> Desempeño: {data.stats.performance} % </p> </Row>
+        <Row > <p> Total intentos: {history.stats.total_attemps}</p> </Row>
+        <Row > <p> Respuestas correctas: {history.stats.correct_answers}</p> </Row>
+        <Row > <p> Desempeño: {history.stats.performance} % </p> </Row>
         <Row > <p> Ultimo intento: {dformat2}  </p> </Row>
 
-        {data.historial.map((e) => {
+        {history.historial.map((e) => {
 
           const date = new Date(e.date)
           const dformat =

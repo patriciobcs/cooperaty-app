@@ -7,18 +7,19 @@ export default function WalletConnect() {
   const { connected, wallet, select, connect, disconnect } = useWallet();
   const publicKey = (connected && wallet?.publicKey?.toBase58()) || '';
 
+  //en: ChangeWallet
   const menu = (
     <Menu>
       {connected && <LinkAddress shorten={true} address={publicKey} />}
-      <Menu.Item key="3" onClick={select}>
-        Change Wallet
+      <Menu.Item key="3" onClick={select}> 
+        Cambiar Wallet 
       </Menu.Item>
     </Menu>
   );
 
-  return (
+  return ( //en: {connected ? 'Disconnect' : 'Connect'}
     <Dropdown.Button onClick={connected ? disconnect : connect} overlay={menu}>
-      {connected ? 'Disconnect' : 'Connect'}
+      {connected ? 'Desconectar Wallet' : 'Conectar Wallet'}
     </Dropdown.Button>
   );
 }
