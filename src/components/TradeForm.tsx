@@ -316,7 +316,7 @@ export default function TradeForm({
               block
               size="large"
               onClick={() => {
-                connected ? predict(true) :
+                connected ? predict(true, publicKey, practice.modality) :
                   notify({
                     message: "Aviso",
                     description: "Se necesita conectar una wallet para usar esta funcionalidad",
@@ -329,7 +329,7 @@ export default function TradeForm({
             </ActionButton2>
           </Col>
           <Col style={{ width: 150 }}>
-            <ActionButton block size="large" onClick={() => connected ? predict(false) :
+            <ActionButton block size="large" onClick={() => connected ? predict(false, publicKey, practice.modality) :
               notify({
                 message: "Aviso",
                 description: "Se necesita conectar una wallet para usar esta funcionalidad",

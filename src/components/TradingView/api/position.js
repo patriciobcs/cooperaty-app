@@ -55,11 +55,9 @@ export default {
 		const { from, to, firstDataRequest } = periodParams;
 		//console.log('function args',arguments)
 		//console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-		console.log("entro aca")
 		historyProvider.getBars(symbolInfo, resolution, from, to, firstDataRequest)
 		.then(bars => {
 			if (bars.length) {
-				console.log("Aca entro")
 				onHistoryCallback(bars, {noData: false})
 			} else {
 				onHistoryCallback(bars, {noData: true})

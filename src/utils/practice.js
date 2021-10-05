@@ -9,14 +9,16 @@ import { notify } from "./notifications";
 const API_URL = "http://localhost:4000/addExercise?"
 const API_URL_GET = "http://localhost:4000/wallet?wallet="
 
-function sendNewHistory(pkey) {
+function sendNewHistory(pkey, pred, mod) {
     async function History() {
         try {
             const esc = encodeURIComponent;
             const params = {
                 wallet: "Ho5rHkUWSmGv7jodRhxquSyNbwCSKYvEDAphqaAKU5KA",
                 exerciseid: "SOLUSDT0101202004001M5H",
-                resp: false
+                resp: pred,
+                ex_type: mod
+
             };
             const query = Object.keys(params).map(k => `${esc(k)}=${esc(params[k])}`).join('&')
             let resp = await fetch(API_URL + query)
@@ -27,7 +29,7 @@ function sendNewHistory(pkey) {
                 message: "Error enviando datos a API",
                 description: "No se ha podido establecer conexión con API",
                 type: "error"
-              })
+            })
             console.log(error)
         }
     }
@@ -70,6 +72,8 @@ export function PracticeProvider({ children }) {
 
     const [history, setHistory] = useState(history_test)
 
+    const [conected_api, setConected_api] = useState("init")
+
     function skip() {
         const skipped = {
             symbol: practice.symbol,
@@ -86,6 +90,7 @@ export function PracticeProvider({ children }) {
                 let response = await fetch(API_URL_GET + pkey)
                 let resp = await response.json()
                 setHistory(resp)
+                setConected_api('ok')
             }
             catch (error) {
                 console.log(error)
@@ -93,30 +98,42 @@ export function PracticeProvider({ children }) {
         }
         History2()
     }
-    
 
-    function predict(value) {
+
+    function predict(value, id_wallet, modality) {
         const refresh = {
             symbol: practice.symbol,
             modality: practice.modality,
             skip: false
         }
+        let mod = 0
+        switch (modality) {
+            case "scalping":
+                mod = 0
+            case "intra":
+                mod = 1
+            case "swing":
+                mod = 2
+            case "position":
+                mod = 3
+        }
 
         if (value == true) {
-            sendNewHistory("Ho5rHkUWSmGv7jodRhxquSyNbwCSKYvEDAphqaAKU5KA")
-            getHistory("Ho5rHkUWSmGv7jodRhxquSyNbwCSKYvEDAphqaAKU5KA")
+            sendNewHistory(id_wallet, 1, mod)
+            getHistory(id_wallet)
 
             //
-        } else if (value == true) {
-            sendNewHistory("Ho5rHkUWSmGv7jodRhxquSyNbwCSKYvEDAphqaAKU5KA")
-            getHistory("Ho5rHkUWSmGv7jodRhxquSyNbwCSKYvEDAphqaAKU5KA")
+        } else if (value == false) {
+            sendNewHistory(id_wallet, 0, mod)
+            getHistory(id_wallet)
         }
 
         setPractice(refresh)
 
     }
 
-    return <Provider value={{ practice, setPractice, skip, predict, history, setHistory }}> {children}</Provider>;
+    return <Provider value={{ practice, setPractice, skip, predict, history, setHistory, conected_api, setConected_api}}>
+        {children}</Provider>;
 }
 
 export function usePractice() {

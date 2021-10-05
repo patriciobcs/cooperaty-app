@@ -31,6 +31,7 @@ import { PracticeContext, PracticeProvider, usePractice } from '../utils/practic
 import { HistoryErrorAPI } from './History/HistoryErrorAPI'
 import { HistoryConectingAPI } from '../components/History/HistoryConectingAPI'
 import { HistoryAdviceWallet } from '../components/History/HistoryAdviceWallet'
+import { HistoryNotFound } from './History/HistoryNotFound';
 
 
 
@@ -53,11 +54,11 @@ const ActionButton = styled(Button)`
   background-color: #212734;
   border-width: 0px;
 `;
-let conected_api = 'init'
+
 
 export default function StandaloneBalancesDisplay() {
-  
-  const { history, setHistory } = useContext(PracticeContext)
+
+  const { history, setHistory, conected_api, setConected_api } = useContext(PracticeContext)
   /*const [data, setData] = useState({
     "historial": [
 
@@ -227,7 +228,6 @@ export default function StandaloneBalancesDisplay() {
     ];
 
 
-  const wal = "wallet1"
   const API_URL = "http://localhost:4000/wallet?wallet="
   function getHistory(pkey) {
     async function History() {
@@ -235,12 +235,17 @@ export default function StandaloneBalancesDisplay() {
         let response = await fetch(API_URL + pkey)
         let resp = await response.json()
         setHistory(resp);
-        console.log("RESPUESTA", resp)
-        conected_api = 'ok'
+       
+        if (resp.Warning == "Wallet not found"){
+          setConected_api('not found')
+        }else{
+          setConected_api('ok')
+        }
+        
       }
       catch (error) {
         console.log(error)
-        conected_api = 'fail'
+        setConected_api('fail')
       }
 
 
@@ -255,7 +260,11 @@ export default function StandaloneBalancesDisplay() {
 
 
 
-
+  if (conected_api === 'not found' && connected) {
+    return (
+      <HistoryNotFound></HistoryNotFound>
+    )
+  }
   if (conected_api === 'ok' && connected) {
     const date2 = new Date(history.stats.last_attemp_date)
     const dformat2 =

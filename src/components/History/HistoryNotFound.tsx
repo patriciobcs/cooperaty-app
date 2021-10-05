@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { Col,  Row, Tooltip } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import {  ExclamationCircleOutlined } from '@ant-design/icons';
 
 
 const RowBox = styled(Row)`
@@ -15,15 +15,13 @@ const ColError = styled(Col)`
   align-self: center;
   text-align: center
 `;
-const RowWallet = styled(Row)`
-min-width: -webkit-fill-available
-`;
 
 
 
-export function HistoryAdviceWallet(){
-  //@ts-ignore
-    return(<FloatingElement style={{ flex: 1, paddingTop: 10 }}>
+export function HistoryNotFound(){
+    return(
+        //@ts-ignore
+      <FloatingElement style={{ flex: 1, paddingTop: 10 }}>
       <RowBox  justify="space-between">
       <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
         <h1>Historial</h1>
@@ -38,15 +36,15 @@ export function HistoryAdviceWallet(){
         </Tooltip>
       </div>
 
-      <RowWallet justify="end">
+      <Row justify="end" >
         <Col span={18} push={6}>
-          <h3>Por favor, conecte su wallet</h3>
+          <h3>No se ha encontrado historial asociado a este wallet</h3>
         </Col>
-        <ColError span={6} pull={18}>
-          <InfoCircleOutlined style={{ fontSize: '250%', textAlign: 'center' }}/>
+        <ColError  span={6} pull={18}>
+          <ExclamationCircleOutlined style={{ color: '#f23b69', fontSize: '250%', textAlign: 'center' }}/>
         </ColError>
-      </RowWallet>      
+      </Row>      
     </RowBox>
     </FloatingElement>
-  )
+    )
 }

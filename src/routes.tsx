@@ -9,6 +9,7 @@ import PoolPage from './pages/pools/PoolPage';
 import PoolListPage from './pages/pools/PoolListPage';
 import { getTradePageUrl } from './utils/markets';
 import { PracticeProvider } from './utils/practice';
+import { InvestmentPage } from './pages/InvestmentPage';
 
 export function Routes() {
   return (
@@ -21,6 +22,9 @@ export function Routes() {
             </Route>
             <Route exact path="/market/:marketAddress">
               <TradePage />
+            </Route>
+            <Route exact path="/inverstment">
+              <InvestmentPage />
             </Route>
           </Switch>
         </BasicLayout>

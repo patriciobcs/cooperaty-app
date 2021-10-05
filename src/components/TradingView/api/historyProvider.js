@@ -8,7 +8,9 @@ export default {
 
     getBars: function(symbolInfo, resolution, from, to, first, limit) {
 		var split_symbol = symbolInfo.name.split(/[:/]/)
-			const url = resolution === 'D' ? '/data/histoday' : resolution >= 60 ? '/data/histohour' : '/data/histominute'
+			const url = resolution === '1D' ? '/data/histoday' : 
+			resolution === 'D' ? '/data/histoday' : resolution >= 60 ? '/data/histohour' : '/data/histominute'
+			console.log("url",url)
 			const qs = {
 					e: split_symbol[0],
 					fsym: split_symbol[1],
