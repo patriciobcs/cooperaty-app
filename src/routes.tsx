@@ -23,7 +23,7 @@ export function Routes() {
             <Route exact path="/market/:marketAddress">
               <TradePage />
             </Route>
-            <Route exact path="/inverstment">
+            <Route exact path="/investment">
               <InvestmentPage />
             </Route>
           </Switch>
