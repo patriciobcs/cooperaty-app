@@ -98,17 +98,17 @@ function TradePageInner() {
     ({ size, price }: { size?: number; price?: number }) => void
   >();
 
-  useEffect(() => {
+ /* useEffect(() => {
     const handleResize = () => {
       setDimensions({
         height: window.innerHeight,
         width: window.innerWidth,
       });
-    };
+    }; 
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, []); */
 
   const width = dimensions?.width;
   const componentProps = {
@@ -162,9 +162,13 @@ const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
 };
 
 const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
-
+  
+  const symbols = ["Binance:BNB/USDT", "Binance:VET/USDT", "Binance:SNC/USDT", "Binance:SAND/USDT", "Binance:SHIB/USDT",
+  "Binance:BTC/USDT", "Binance:ADA/USDT", "Binance:TRX/USDT", "Binance:ANKR/USDT","Binance:BNB/BUSD", "Binance:SLP/USDT",
+  "Binance:FIL/USDT", "Binance:FTM/USDT", "Binance:FTM/USDT", "Binance:IDEX/USDT","Binance:OMG/USDT", "Binance:DOGE/USDT"]
+  const random = Math.floor(Math.random() * 11)
   const scalping = {
-    symbol: "Bitfinex:BTC/USD",
+    symbol: "Binance:BNB/USDT",
     modality: "scalping",
     skip: false
   }

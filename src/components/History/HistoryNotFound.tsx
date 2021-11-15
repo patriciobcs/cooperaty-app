@@ -6,6 +6,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { Col,  Row, Tooltip } from 'antd';
 import {  ExclamationCircleOutlined } from '@ant-design/icons';
 
+const history_help_test = "Aquí se muestra el historial de los ejercicios realizados por el usuario. Se requiere conectar la Wallet primero"
 
 const RowBox = styled(Row)`
   padding-bottom: 20px;
@@ -29,7 +30,7 @@ export function HistoryNotFound(){
       <div style={{display: 'flex',  justifyContent:'flex-end', alignItems:'center'}}>
         <Tooltip 
         placement="bottomLeft"
-        title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+        title={history_help_test}>
             <span style={{color: "#1ce6d2"}}>
               <FontAwesomeIcon size='lg' icon={faInfoCircle} />
             </span>

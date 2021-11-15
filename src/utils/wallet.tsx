@@ -22,6 +22,7 @@ import {
 const ASSET_URL =
   'https://cdn.jsdelivr.net/gh/solana-labs/oyster@main/assets/wallets';
 export const WALLET_PROVIDERS = [
+  
   {
     name: 'sollet.io',
     url: 'https://www.sollet.io',
@@ -172,8 +173,8 @@ export function WalletProvider({ children }) {
     >
       {children} 
       <Modal
-        title="Select Wallet"
-        okText="Connect"
+        title="Seleccionar Wallet"
+        okText="Connectar"
         visible={isModalVisible}
         okButtonProps={{ style: { display: 'none' } }}
         onCancel={close}
@@ -207,7 +208,7 @@ export function WalletProvider({ children }) {
                 marginBottom: 8,
               }}
             >
-              {provider.name}
+              {provider.name === "Phantom" ? provider.name + " (Recomendado)": provider.name }
             </Button>
           );
         })}

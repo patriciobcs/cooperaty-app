@@ -33,7 +33,7 @@ import { HistoryConectingAPI } from '../components/History/HistoryConectingAPI'
 import { HistoryAdviceWallet } from '../components/History/HistoryAdviceWallet'
 import { HistoryNotFound } from './History/HistoryNotFound';
 
-
+const history_help_test = "Aquí se muestra el historial de los ejercicios realizados por el usuario. Se requiere conectar la Wallet primero"
 
 const RowBox = styled(Row)`
   padding-bottom: 20px;
@@ -284,7 +284,7 @@ export default function StandaloneBalancesDisplay() {
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <Tooltip
               placement="bottomLeft"
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+              title={history_help_test}>
               <span style={{ color: "#1ce6d2" }}>
                 <FontAwesomeIcon size='lg' icon={faInfoCircle} />
               </span>

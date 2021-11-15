@@ -41,7 +41,7 @@ export const TVChartContainer = (props) => {
   let Data = Datafeed
 
   let defaultProps: ChartContainerProps = {
-    symbol: 'Coinbase:BTC/USD',
+    symbol: 'Binance:BTC/USD',
     // @ts-ignore
     interval: '15',
     auto_save_delay: 5,
@@ -177,9 +177,63 @@ export const TVChartContainer = (props) => {
       tvWidget
         // @ts-ignore
         .subscribe('onAutoSaveNeeded', () => tvWidget.saveChartToServer());
+
+        /*
+        var order = tvWidget.chart().createOrderLine()
+        .setText("Compren que esta barateli")
+        .setLineLength(3) 
+        .setLineStyle(0) 
+        .setQuantity("221.235 USDT")
+        .setLineColor("rgb(139,0,0)")
+        order.setPrice(62000);
+        */
+        /*
+        tvWidget.chart().createPositionLine()
+        .onModify(function() {
+          // @ts-ignore  
+          this.setText("onModify called");
+        })
+        .onReverse("onReverse called", function(text) {
+          // @ts-ignore  
+          this.setText(text);
+        })
+        .onClose("onClose called", function(text) {
+          // @ts-ignore  
+          this.setText(text);
+        })
+        .setText("PROFIT: 71.1 (3.31%)")
+        .setQuantity("8.235")
+        .setPrice(63000)
+        .setExtendLeft(false)
+        .setLineStyle(0)
+        .setLineLength(25);
+        */
+
+        /* tvWidget.chart().createExecutionShape()
+        .setText("@1,320.75 Limit Buy 1")
+        .setTooltip("@1,320.75 Limit Buy 1")
+        .setTextColor("rgba(0,255,0,0.5)")
+        .setArrowColor("#0F0")
+        .setDirection("buy")
+        .setTime(1635984899)
+        .setPrice(61512.10);
+
+        tvWidget.chart() */
+
+
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    //const order = tvWidget.chart().createOrderLine()
+    //.setText("Buy Line")
+    //.setLineLength(3) 
+    //.setLineStyle(0) 
+    //.setQuantity("221.235 USDT")
+    //order.setPrice(63000);
+
   }, [market, tvWidgetRef.current]);
+
+  
 
   return <div id={defaultProps.containerId} className={'TVChartContainer'} />;
 };

@@ -302,7 +302,7 @@ export default function TradeForm({
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
           <Tooltip
             placement="bottomLeft"
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+            title="Aquí se puede escoger la opción de predicción del ejercicio, donde se puede seleccionar: Sube, si es que la tendencia es alcista, Baja si es que la tendencia es bajista u Omitir para saltar a otro ejercicio">
             <span style={{ color: "#1ce6d2" }}>
               <FontAwesomeIcon size='lg' icon={faInfoCircle} />
             </span>
@@ -350,7 +350,7 @@ export default function TradeForm({
               Omitir
             </ActionButton3>
           </Col>
-          <Col>{practice.modality}</Col>
+          
         </RowBox>
       </div>
     </FloatingElement >

@@ -41,9 +41,14 @@ export const PracticeContext = createContext()
 
 let { Provider, Consumer } = PracticeContext
 
+const symbols = ["Binance:BNB/USDT", "Binance:VET/USDT", "Binance:SNC/USDT", "Binance:SAND/USDT", "Binance:BCH/USDT",
+  "Binance:BTC/USDT", "Binance:ADA/USDT", "Binance:TRX/USDT", "Binance:ANKR/USDT","Binance:MANA/USDT", "Binance:SLP/USDT",
+  "Binance:FIL/USDT", "Binance:FTM/USDT", "Binance:FTM/USDT", "Binance:IDEX/USDT","Binance:OMG/USDT", "Binance:DOGE/USDT"]
+  const random = Math.floor(Math.random() * 18)
+  const symbol = symbols[random]
 
 const default_practice = {
-    symbol: "Bitfinex:BTC/USD",
+    symbol: symbol,
     modality: "scalping",
     skip: false
 }
