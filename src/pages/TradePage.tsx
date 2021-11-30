@@ -129,11 +129,11 @@ function TradePageInner() {
           switchToLiveMarkets={() => setHandleDeprecated(false)}
         />
       );
-    } else if (width < 1000) {
+    } /*else if (width < 1000) {
       return <RenderSmaller {...componentProps} />;
     } else if (width < 1450) {
       return <RenderSmall {...componentProps} />;
-    } else {
+    } */else {
       return <RenderNormal {...componentProps} />;
     }
   })();

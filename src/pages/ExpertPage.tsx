@@ -98,7 +98,7 @@ function TradePageInner() {
   const changeOrderRef = useRef<
     ({ size, price }: { size?: number; price?: number }) => void
   >();
-
+/*
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
@@ -109,7 +109,7 @@ function TradePageInner() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, []); */
 
   const width = dimensions?.width;
   const componentProps = {
@@ -130,11 +130,11 @@ function TradePageInner() {
           switchToLiveMarkets={() => setHandleDeprecated(false)}
         />
       );
-    } else if (width < 1000) {
+    } /*else if (width < 1000) {
       return <RenderSmaller {...componentProps} />;
     } else if (width < 1450) {
       return <RenderSmall {...componentProps} />;
-    } else {
+    } */ else {
       return <RenderNormal {...componentProps} />;
     }
   })();
