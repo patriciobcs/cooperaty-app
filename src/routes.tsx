@@ -8,10 +8,13 @@ import NewPoolPage from './pages/pools/NewPoolPage';
 import PoolPage from './pages/pools/PoolPage';
 import PoolListPage from './pages/pools/PoolListPage';
 import { getTradePageUrl } from './utils/markets';
-import { PracticeProvider } from './utils/practice';
 import ExpertPage from "./pages/ExpertPage"
+import { PracticeContext } from '../src/utils/practice'
+import { useWallet } from '../src/utils/wallet';
 
 export function Routes() {
+  const {  connected } = useWallet();
+  const { streak } = React.useContext(PracticeContext)
   return (
     <>
       <HashRouter basename={'/'}>
@@ -24,7 +27,7 @@ export function Routes() {
               <TradePage />
             </Route>
             <Route exact path="/expert">
-            {Number(localStorage.streak) >= 2? <ExpertPage /> :<Redirect to="/" /> }
+            {Number(streak) >= 2 && connected ? <ExpertPage /> :<Redirect to="/" /> }
             </Route>
           </Switch>
         </BasicLayout>

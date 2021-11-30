@@ -24,6 +24,7 @@ import tuple from 'immutable-tuple';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { PracticeProvider, usePractice, PracticeContext } from '../utils/practice'
+import { HistoryAdviceWallet2 } from '../components/History/HistoryAdviceWallet'
 
 
 const RowBox = styled(Row)`
@@ -287,73 +288,81 @@ export default function TradeForm({
 
   //const {practice, setPractice} = useContext(PracticeContext)
 
-  const { practice, setPractice, skip, predict } = useContext(PracticeContext)
+  const { practice, setPractice, skip, predict, conected_api, setConected_api } = useContext(PracticeContext)
 
 
-  return (
+  if (connected){
+    return (
 
-    <FloatingElement
-      style={{ display: 'flex', flexDirection: 'column', ...style }}
-    >
-      <RowBox align="middle" justify="space-between">
-        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-          <h1> Escoja una opción</h1>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <Tooltip
-            placement="bottomLeft"
-            title="Aquí se puede escoger la opción de predicción del ejercicio, donde se puede seleccionar: Sube, si es que la tendencia es alcista, Baja si es que la tendencia es bajista u Omitir para saltar a otro ejercicio">
-            <span style={{ color: "#1ce6d2" }}>
-              <FontAwesomeIcon size='lg' icon={faInfoCircle} />
-            </span>
-          </Tooltip>
-        </div>
-      </RowBox>
-      <div style={{ flex: 1 }}>
-        <RowBox align="middle" justify="space-around">
-          <Col style={{ width: 150 }}>
-            <ActionButton2
-              block
-              size="large"
-              onClick={() => {
-                connected ? predict(true, publicKey, practice.modality) :
-                  notify({
-                    message: "Aviso",
-                    description: "Se necesita conectar una wallet para usar esta funcionalidad",
-                    type: "warning"
-                  })
-              }
-              }
-            >
-              Sube
-            </ActionButton2>
-          </Col>
-          <Col style={{ width: 150 }}>
-            <ActionButton block size="large" onClick={() => connected ? predict(false, publicKey, practice.modality) :
-              notify({
-                message: "Aviso",
-                description: "Se necesita conectar una wallet para usar esta funcionalidad",
-                type: "warning"
-              })} >
-              Baja
-            </ActionButton>
-          </Col>
+      <FloatingElement
+        style={{ display: 'flex', flexDirection: 'column', ...style }}
+      >
+        <RowBox align="middle" justify="space-between">
+          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <h1> Escoja una opción</h1>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <Tooltip
+              placement="bottomLeft"
+              title="Aquí se puede escoger la opción de predicción del ejercicio, donde se puede seleccionar: Sube, si es que la tendencia es alcista, Baja si es que la tendencia es bajista u Omitir para saltar a otro ejercicio">
+              <span style={{ color: "#1ce6d2" }}>
+                <FontAwesomeIcon size='lg' icon={faInfoCircle} />
+              </span>
+            </Tooltip>
+          </div>
         </RowBox>
-        <RowBox align="middle" justify="space-around">
-          <Col style={{ width: 325 }}>
-            <ActionButton3 onClick={() => connected ? skip() :
-              notify({
-                message: "Aviso",
-                description: "Se necesita conectar una wallet para usar esta funcionalidad",
-                type: "warning"
-              })} block size="large">
-              Omitir
-            </ActionButton3>
-          </Col>
-          
-        </RowBox>
-      </div>
-    </FloatingElement >
+        <div style={{ flex: 1 }}>
+          <RowBox align="middle" justify="space-around">
+            <Col style={{ width: 150 }}>
+              <ActionButton2
+                block
+                size="large"
+                onClick={() => {
+                  connected ? predict(true, publicKey, practice.modality) :
+                    notify({
+                      message: "Aviso",
+                      description: "Se necesita conectar una wallet para usar esta funcionalidad",
+                      type: "warning"
+                    })
+                }
+                }
+              >
+                Sube
+              </ActionButton2>
+            </Col>
+            <Col style={{ width: 150 }}>
+              <ActionButton block size="large" onClick={() => connected ? predict(false, publicKey, practice.modality) :
+                notify({
+                  message: "Aviso",
+                  description: "Se necesita conectar una wallet para usar esta funcionalidad",
+                  type: "warning"
+                })} >
+                Baja
+              </ActionButton>
+            </Col>
+          </RowBox>
+          <RowBox align="middle" justify="space-around">
+            <Col style={{ width: 325 }}>
+              <ActionButton3 onClick={() => connected ? skip() :
+                notify({
+                  message: "Aviso",
+                  description: "Se necesita conectar una wallet para usar esta funcionalidad",
+                  type: "warning"
+                })} block size="large">
+                Omitir
+              </ActionButton3>
+            </Col>
+            
+          </RowBox>
+        </div>
+      </FloatingElement >
+  
+    );
+  } else{
+    return <HistoryAdviceWallet2></HistoryAdviceWallet2>
+  
+    ;
+  }
 
-  );
+  
 }

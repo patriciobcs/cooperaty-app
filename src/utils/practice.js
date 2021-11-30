@@ -88,8 +88,9 @@ export function PracticeProvider({ children }) {
 
     const [conected_api, setConected_api] = useState("init")
     
-    const [streak, setStreak] = useState(localStorage.streak)
+    const [streak, setStreak] = useState(Number(localStorage.streak))
     
+    console.log("Valor streak", streak )
 
     function skip() {
         const skipped = {
@@ -151,7 +152,7 @@ export function PracticeProvider({ children }) {
 
     }
 
-    return <Provider value={{ practice, setPractice, skip, predict, history, setHistory, conected_api, setConected_api}}>
+    return <Provider value={{ practice, setPractice, skip, predict, history, setHistory, conected_api, setConected_api, streak, setStreak}}>
         {children}</Provider>;
 }
 

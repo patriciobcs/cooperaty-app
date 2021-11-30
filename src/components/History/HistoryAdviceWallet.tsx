@@ -51,3 +51,33 @@ export function HistoryAdviceWallet(){
     </FloatingElement>
   )
 }
+
+export function HistoryAdviceWallet2(){
+  //@ts-ignore
+    return(<FloatingElement style={{ flex: 1, paddingTop: 10 }}>
+      <RowBox  justify="space-between">
+      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+        <h1>Predicción</h1>
+      </div>
+      <div style={{display: 'flex',  justifyContent:'flex-end', alignItems:'center'}}>
+        <Tooltip 
+        placement="bottomLeft"
+        title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">
+            <span style={{color: "#1ce6d2"}}>
+              <FontAwesomeIcon size='lg' icon={faInfoCircle} />
+            </span>
+        </Tooltip>
+      </div>
+
+      <RowWallet justify="end">
+        <Col span={18} push={6}>
+          <h3>Por favor, conecte su wallet</h3>
+        </Col>
+        <ColError span={6} pull={18}>
+          <InfoCircleOutlined style={{ fontSize: '250%', textAlign: 'center' }}/>
+        </ColError>
+      </RowWallet>
+    </RowBox>
+    </FloatingElement>
+  )
+}

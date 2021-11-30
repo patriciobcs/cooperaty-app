@@ -1,5 +1,5 @@
 import { Button, Col, Menu, Popover, Row, Select } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../assets/LogoCooperaty.png';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { notify } from '../utils/notifications';
 import { Connection } from '@solana/web3.js';
 import WalletConnect from './WalletConnect';
 import { getTradePageUrl } from '../utils/markets';
+import { PracticeContext } from '../utils/practice'
 
 const Wrapper = styled.div`
   background-color: #0d1017;
@@ -132,38 +133,43 @@ export default function TopBar() {
     : getTradePageUrl();
     
 const historyexp = useHistory();
-  return (
-    <>
-      <CustomClusterEndpointDialog
-        visible={addEndpointVisible}
-        testingConnection={testingConnection}
-        onAddCustomEndpoint={onAddCustomEndpoint}
-        onClose={() => setAddEndpointVisible(false)}
-      />
-      <Wrapper>
-        <LogoWrapper>
-          <img src={logo} alt="" />
-          {'COOPERATY'}
-        </LogoWrapper>
-        <Menu
-          mode="horizontal"
-          style={{
-            borderBottom: 'none',
-            backgroundColor: 'transparent',
-            display: 'flex',
-            alignItems: 'flex-end',
-            flex: 1,
-
-          }}
-        >
-        <Menu.Item onClick={()=> historyexp.push("/expert")}>
-            Expert Zone
-        </Menu.Item>
-        </Menu>
-        <div>
-          <WalletConnect />
-        </div>
-      </Wrapper>
-    </>
-  );
+const { streak, setStreak } = useContext(PracticeContext)
+console.log("TOPBARE", streak)
+  
+    return (
+      <>
+        <CustomClusterEndpointDialog
+          visible={addEndpointVisible}
+          testingConnection={testingConnection}
+          onAddCustomEndpoint={onAddCustomEndpoint}
+          onClose={() => setAddEndpointVisible(false)}
+        />
+        <Wrapper>
+          <LogoWrapper>
+            <img src={logo} alt="" />
+            {'COOPERATY'}
+          </LogoWrapper>
+          <Menu
+            mode="horizontal"
+            style={{
+              borderBottom: 'none',
+              backgroundColor: 'transparent',
+              display: 'flex',
+              alignItems: 'flex-end',
+              flex: 1,
+  
+            }}
+          >
+          
+          { streak >= 2 && connected ?<Menu.Item onClick={()=> historyexp.push("/expert")}>
+          Expert Zone
+        </Menu.Item>: null }
+          </Menu>
+          <div>
+            <WalletConnect />
+          </div>
+        </Wrapper>
+      </>
+    ); 
+  
 }

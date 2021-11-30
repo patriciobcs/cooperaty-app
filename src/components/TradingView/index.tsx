@@ -177,7 +177,7 @@ export const TVChartContainer = (props) => {
       tvWidget
         // @ts-ignore
         .subscribe('onAutoSaveNeeded', () => tvWidget.saveChartToServer());
-
+        console.log("TEST", tvWidget.chart())
         /*
         var order = tvWidget.chart().createOrderLine()
         .setText("Compren que esta barateli")
@@ -187,7 +187,7 @@ export const TVChartContainer = (props) => {
         .setLineColor("rgb(139,0,0)")
         order.setPrice(62000);
         */
-        /*
+        
         tvWidget.chart().createPositionLine()
         .onModify(function() {
           // @ts-ignore  
@@ -203,22 +203,22 @@ export const TVChartContainer = (props) => {
         })
         .setText("PROFIT: 71.1 (3.31%)")
         .setQuantity("8.235")
-        .setPrice(63000)
+        .setPrice(10)
         .setExtendLeft(false)
         .setLineStyle(0)
         .setLineLength(25);
-        */
+        
 
-        /* tvWidget.chart().createExecutionShape()
+        /*tvWidget.chart().createExecutionShape()
         .setText("@1,320.75 Limit Buy 1")
         .setTooltip("@1,320.75 Limit Buy 1")
         .setTextColor("rgba(0,255,0,0.5)")
         .setArrowColor("#0F0")
         .setDirection("buy")
-        .setTime(1635984899)
-        .setPrice(61512.10);
+        .setTime(1638291499)
+        .setPrice(1000.10); */
 
-        tvWidget.chart() */
+        tvWidget.chart()  
 
 
     });
