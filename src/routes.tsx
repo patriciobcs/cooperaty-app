@@ -9,7 +9,7 @@ import PoolPage from './pages/pools/PoolPage';
 import PoolListPage from './pages/pools/PoolListPage';
 import { getTradePageUrl } from './utils/markets';
 import { PracticeProvider } from './utils/practice';
-import { InvestmentPage } from './pages/InvestmentPage';
+import ExpertPage from "./pages/ExpertPage"
 
 export function Routes() {
   return (
@@ -23,8 +23,8 @@ export function Routes() {
             <Route exact path="/market/:marketAddress">
               <TradePage />
             </Route>
-            <Route exact path="/investment">
-              <InvestmentPage />
+            <Route exact path="/expert">
+            {Number(localStorage.streak) >= 2? <ExpertPage /> :<Redirect to="/" /> }
             </Route>
           </Switch>
         </BasicLayout>

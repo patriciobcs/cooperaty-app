@@ -234,11 +234,11 @@ export function MarketProvider({ marketAddress, setMarketAddress, children }) {
     }
     setMarket(null);
     if (!marketInfo || !marketInfo.address) {
-      notify({
+      /*notify({
         message: 'Error loading market',
         description: 'Please select a market from the dropdown',
         type: 'error',
-      });
+      }); */
       return;
     }
     Market.load(connection, marketInfo.address, {}, marketInfo.programId)

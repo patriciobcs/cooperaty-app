@@ -9,13 +9,22 @@ import { notify } from "./notifications";
 const API_URL = "http://localhost:4000/addExercise?"
 const API_URL_GET = "http://localhost:4000/wallet?wallet="
 
+if (!localStorage.streak){
+    localStorage.streak = 0
+}
+
 function sendNewHistory(pkey, pred, mod) {
     async function History() {
         try {
+            const SYMBOLS = ["BNBUSDT", "VET/USDT", "SNC/USDT", "SANDUSDT", "BCHUSDT",
+            "BTCUSDT", "ADAUSDT", "TRXUSDT", "ANKRUSDT","MANAUSDT", "SLPUSDT",
+            "FIL/USDT", "FTTUSDT", "FTMUSDT", "IDEX/USDT",":OMGUSDT", "DOGEUSDT"]
+            const random = Math.floor(Math.random() * 18)
+            const symbol = SYMBOLS[random]
             const esc = encodeURIComponent;
             const params = {
-                wallet: "Ho5rHkUWSmGv7jodRhxquSyNbwCSKYvEDAphqaAKU5KA",
-                exerciseid: "SOLUSDT0101202004001M5H",
+                wallet: pkey,
+                exerciseid: symbol + "0101202004001M5H",
                 resp: pred,
                 ex_type: mod
 
@@ -78,6 +87,9 @@ export function PracticeProvider({ children }) {
     const [history, setHistory] = useState(history_test)
 
     const [conected_api, setConected_api] = useState("init")
+    
+    const [streak, setStreak] = useState(localStorage.streak)
+    
 
     function skip() {
         const skipped = {
@@ -126,6 +138,8 @@ export function PracticeProvider({ children }) {
         if (value == true) {
             sendNewHistory(id_wallet, 1, mod)
             getHistory(id_wallet)
+            localStorage.streak = Number(localStorage.streak) + 1
+            setStreak(Number(localStorage.streak))
 
             //
         } else if (value == false) {
