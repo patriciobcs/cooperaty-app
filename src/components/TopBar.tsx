@@ -31,6 +31,14 @@ const LogoWrapper = styled.div`
     margin-right: 8px;
   }
 `;
+const LogoWrapper2 = styled.div`
+float: left;
+  margin: auto 25px auto auto;
+`;
+const TabButton = styled(Menu.Item)`
+  color: #1ce6d2;
+`;
+
 
 const EXTERNAL_LINKS = {
   '/learn': 'https://docs.projectserum.com/trade-on-serum-dex/trade-on-serum-dex-1',
@@ -122,7 +130,8 @@ export default function TopBar() {
   const tradePageUrl = location.pathname.startsWith('/market/')
     ? location.pathname
     : getTradePageUrl();
-
+    
+const historyexp = useHistory();
   return (
     <>
       <CustomClusterEndpointDialog
@@ -132,22 +141,24 @@ export default function TopBar() {
         onClose={() => setAddEndpointVisible(false)}
       />
       <Wrapper>
-        <LogoWrapper onClick={() => history.push(tradePageUrl)}>
+        <LogoWrapper>
           <img src={logo} alt="" />
           {'COOPERATY'}
         </LogoWrapper>
         <Menu
           mode="horizontal"
-          onClick={handleClick}
-          selectedKeys={[location.pathname]}
           style={{
             borderBottom: 'none',
             backgroundColor: 'transparent',
             display: 'flex',
             alignItems: 'flex-end',
             flex: 1,
+
           }}
         >
+        <Menu.Item onClick={()=> historyexp.push("/expert")}>
+            Expert Zone
+        </Menu.Item>
         </Menu>
         <div>
           <WalletConnect />
