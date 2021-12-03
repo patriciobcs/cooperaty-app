@@ -1,5 +1,9 @@
-import axios from "axios"
 var rp = require('request-promise').defaults({json: true})
+
+const api_root = 'https://min-api.cryptocompare.com'
+const history = {}
+
+
 
 export default {
 	history: history,
@@ -18,23 +22,7 @@ export default {
 					// aggregate: 1//resolution 
 				}
 			// console.log({qs})
-		console.log(`${api_root}${url}`,qs)	
-
-		return axios.get("http://40.122.106.160:5000/exercise").then( ({data}) => {
-			
-			console.log(data)
-			let bars = data.map(el =>{
-				return {
-					time: parseInt(el[0]), //TradingView requires bar time in ms
-					low: el[3],
-					high: el[2],
-					open: el[1],
-					close: el[4],
-					volume: el[5]
-				}
-			})
-			return bars 
-		})
+		console.log(`${api_root}${url}`,qs)		
         return rp({
                 url: `${api_root}${url}`,qs
             })

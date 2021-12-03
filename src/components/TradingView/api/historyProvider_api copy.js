@@ -1,6 +1,7 @@
 import axios from "axios"
 var rp = require('request-promise').defaults({json: true})
 
+
 export default {
 	history: history,
 
@@ -18,9 +19,9 @@ export default {
 					// aggregate: 1//resolution 
 				}
 			// console.log({qs})
-		console.log(`${api_root}${url}`,qs)	
+		
 
-		return axios.get("http://40.122.106.160:5000/exercise").then( ({data}) => {
+		return axios.get("http://52.165.40.126:5000/exercise").then( ({data}) => {
 			
 			console.log(data)
 			let bars = data.map(el =>{

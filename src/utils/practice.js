@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState } from "react";
 import { useWallet } from '../utils/wallet';
 import { notify } from "./notifications";
-
+import axios from "axios"
 
 //const { providerUrl, providerName, wallet, connected } = useWallet();
 //const publicKey = (connected && wallet?.publicKey?.toBase58()) || '';
@@ -24,13 +24,14 @@ function sendNewHistory(pkey, pred, mod) {
             const esc = encodeURIComponent;
             const params = {
                 wallet: pkey,
-                exerciseid: symbol + "0101202004001M5H",
+                exerciseid: "COOP-" + localStorage.exercise_hash,
                 resp: pred,
                 ex_type: mod
 
             };
             const query = Object.keys(params).map(k => `${esc(k)}=${esc(params[k])}`).join('&')
             let resp = await fetch(API_URL + query)
+            //const resp = await axios.get(API_URL + query)
             console.log("Resp", resp)
         }
         catch (error) {
@@ -135,18 +136,43 @@ export function PracticeProvider({ children }) {
             case "position":
                 mod = 3
         }
-
-        if (value == true) {
-            sendNewHistory(id_wallet, 1, mod)
-            getHistory(id_wallet)
-            localStorage.streak = Number(localStorage.streak) + 1
-            setStreak(Number(localStorage.streak))
-
-            //
-        } else if (value == false) {
-            sendNewHistory(id_wallet, 0, mod)
-            getHistory(id_wallet)
+        let v_resp;
+        
+        if (value == true){
+            v_resp =  2
+        }else{
+            v_resp =  0
         }
+        let response = {
+            user_hash: id_wallet,
+            exercise_hash: localStorage.exercise_hash,
+            user_trending_response: v_resp
+        }
+        
+        let hit;
+        axios.post("http://52.165.40.126:5000/respond", response).then( ({data}) => {
+            hit = data.hit
+
+            if (hit == true) {
+                console.log("ENTRO TRUE")
+                sendNewHistory(id_wallet, 1, mod)
+                getHistory(id_wallet)
+                localStorage.streak = Number(localStorage.streak) + 1
+                setStreak(Number(localStorage.streak))
+    
+                //
+            } else if (hit == false) {
+                console.log("ENTRO False")
+                sendNewHistory(id_wallet, 0, mod)
+                getHistory(id_wallet)
+            }
+            console.log("hit", data.hit)
+        }).catch(function (error) {
+            console.log("Error post",error);
+          });
+			
+
+        
 
         setPractice(refresh)
 

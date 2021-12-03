@@ -187,7 +187,7 @@ export const TVChartContainer = (props) => {
         .setLineColor("rgb(139,0,0)")
         order.setPrice(62000);
         */
-        
+        /*
         tvWidget.chart().createPositionLine()
         .onModify(function() {
           // @ts-ignore  
@@ -203,11 +203,11 @@ export const TVChartContainer = (props) => {
         })
         .setText("PROFIT: 71.1 (3.31%)")
         .setQuantity("8.235")
-        .setPrice(10)
+        .setPrice(63000)
         .setExtendLeft(false)
         .setLineStyle(0)
         .setLineLength(25);
-        
+        */
 
         /*tvWidget.chart().createExecutionShape()
         .setText("@1,320.75 Limit Buy 1")
