@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState, useContext } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useContext, Fragment } from 'react';
 import { Col, Row, Select, Tabs, Button, Typography } from 'antd';
 import styled from 'styled-components';
 import UserInfoTable from '../components/UserInfoTable';
@@ -26,7 +26,10 @@ import { nanoid } from 'nanoid';
 import { TVChartContainer } from '../components/TradingView';
 import { TVChartContainer as TVChartContainer2 } from '../components/TradingView';
 import { PracticeProvider, usePractice, PracticeContext } from '../utils/practice'
-
+import { render } from 'react-dom'
+import { withAlert, Provider } from 'react-alert'
+import AlertTemplate from "react-alert-template-mui";
+import Home from "../components/Home";
 
 const { TabPane } = Tabs;
 
@@ -196,11 +199,9 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
     return <TVChartContainer info={grafico}></TVChartContainer>
   }
 
-
-
+  const alert = withAlert()
 
   return (
-
     <Row
       style={{
         minHeight: '620px',
@@ -221,7 +222,9 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         flex="400px"
         style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
-        
+          <Provider template={AlertTemplate}>
+            <Home />
+          </Provider> 
           <TradeForm setChangeOrderRef={onChangeOrderRef} />
           <StandaloneBalancesDisplay />
         
