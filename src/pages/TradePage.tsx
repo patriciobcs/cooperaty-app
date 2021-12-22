@@ -163,10 +163,10 @@ const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
 
 const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
   
-  const symbols = ["Binance:BNB/USDT", "Binance:VET/USDT", "Binance:SNC/USDT", "Binance:SAND/USDT", "Binance:SHIB/USDT",
+  const symbols = ["Binance:BNB/USDT"]; /*, "Binance:VET/USDT", "Binance:SNC/USDT", "Binance:SAND/USDT", "Binance:SHIB/USDT",
   "Binance:BTC/USDT", "Binance:ADA/USDT", "Binance:TRX/USDT", "Binance:ANKR/USDT","Binance:BNB/BUSD", "Binance:SLP/USDT",
-  "Binance:FIL/USDT", "Binance:FTM/USDT", "Binance:FTM/USDT", "Binance:IDEX/USDT","Binance:OMG/USDT", "Binance:DOGE/USDT"]
-  const random = Math.floor(Math.random() * 11)
+  "Binance:FIL/USDT", "Binance:FTM/USDT", "Binance:FTM/USDT", "Binance:IDEX/USDT","Binance:OMG/USDT", "Binance:DOGE/USDT"]*/
+  const random = Math.floor(Math.random() * symbols.length)
   const scalping = {
     symbol: "Binance:BNB/USDT",
     modality: "scalping",
@@ -208,16 +208,16 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       }}
     >
       <Col flex="auto" style={{ width: '100%' }}>
-        <Row >
+        {/* <Row >
           <Moda level={4}>Modalidad</Moda>
           <TabButton onClick={() => setPractice(scalping)}>Scalping</TabButton>
           <TabButton onClick={() => setPractice(intra)}>Intraday</TabButton>
           <TabButton onClick={() => setPractice(swing)}>Swing</TabButton>
           <TabButton onClick={() => setPractice(position)}>Position</TabButton>
-        </Row>
+        </Row> */}
         {grafico(practice)}
       </Col>
-      <Col
+      {/* <Col
         flex="400px"
         style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
@@ -225,7 +225,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
           <TradeForm setChangeOrderRef={onChangeOrderRef} />
           <StandaloneBalancesDisplay />
         
-      </Col>
+      </Col> */}
     </Row>
 
   );

@@ -5,20 +5,18 @@ import {
   ChartingLibraryWidgetOptions,
   IChartingLibraryWidget,
 } from '../../charting_library';
-import { useMarket, USE_MARKETS } from '../../utils/markets';
+import { useMarket } from '../../utils/markets';
 import * as saveLoadAdapter from './saveLoadAdapter';
 import { flatten } from '../../utils/utils';
-import { BONFIDA_DATA_FEED } from '../../utils/bonfidaConnector';
-import Datafeed from './api/'
-import scalping from './api/scalping'
-import intra from './api/intra'
-import swing from './api/swing'
+import Datafeed from './api/';
+import scalping from './api/scalping';
+import intra from './api/intra';
+import swing from './api/swing';
 import position from './api/position';
 export interface ChartContainerProps {
   symbol: ChartingLibraryWidgetOptions['symbol'];
   interval: ChartingLibraryWidgetOptions['interval'];
   auto_save_delay: ChartingLibraryWidgetOptions['auto_save_delay'];
-
   // BEWARE: no trailing slash is expected in feed URL
   // datafeed: any;
   datafeedUrl: string;
@@ -38,7 +36,7 @@ export interface ChartContainerState {}
 
 export const TVChartContainer = (props) => {
   // let datafeed = useTvDataFeed();
-  let Data = Datafeed
+  let Data = Datafeed;
 
   let defaultProps: ChartContainerProps = {
     symbol: 'Binance:BTC/USD',
@@ -58,46 +56,33 @@ export const TVChartContainer = (props) => {
     studiesOverrides: {},
   };
 
-
-  if (props.info.modality == "scalping"){
-    Data = scalping
+  if (props.info.modality == 'scalping') {
+    Data = scalping;
     // @ts-ignore
-    defaultProps.interval = '5'
-    console.log(props.info.modality)
-    
+    defaultProps.interval = '5';
   }
-  if (props.info.modality == "intra"){
-    Data = intra
+  if (props.info.modality == 'intra') {
+    Data = intra;
     // @ts-ignore
-    defaultProps.interval = '60'
-    console.log(props.info.modality)
-    
+    defaultProps.interval = '60';
   }
-  if (props.info.modality == "swing"){
-    Data = swing
+  if (props.info.modality == 'swing') {
+    Data = swing;
     // @ts-ignore
-    defaultProps.interval = '240'
-    console.log(props.info.modality)
-    
+    defaultProps.interval = '240';
   }
-  if (props.info.modality == "position"){
-    Data = position
+  if (props.info.modality == 'position') {
+    Data = position;
     // @ts-ignore
-    defaultProps.interval = '1W'
-    console.log(props.info.modality)
-    
+    defaultProps.interval = '1W';
   }
 
-
-  
-  
   const tvWidgetRef = React.useRef<IChartingLibraryWidget | null>(null);
   const { market } = useMarket();
 
   const chartProperties = JSON.parse(
     localStorage.getItem('chartproperties') || '{}',
   );
-  
 
   React.useEffect(() => {
     const savedProperties = flatten(chartProperties, {
@@ -109,9 +94,6 @@ export const TVChartContainer = (props) => {
       // BEWARE: no trailing slash is expected in feed URL
       // tslint:disable-next-line:no-any
       // @ts-ignore
-      // datafeed: datafeed,
-      // @ts-ignore
-      
       datafeed: Data,
       interval: defaultProps.interval as ChartingLibraryWidgetOptions['interval'],
       container_id: defaultProps.containerId as ChartingLibraryWidgetOptions['container_id'],
@@ -119,7 +101,12 @@ export const TVChartContainer = (props) => {
       auto_save_delay: 5,
 
       locale: 'en',
-      disabled_features: ['use_localstorage_for_settings', 'timeframes_toolbar', 'go_to_date', 'header_symbol_search'],
+      disabled_features: [
+        'use_localstorage_for_settings',
+        'timeframes_toolbar',
+        'go_to_date',
+        'header_symbol_search',
+      ],
       enabled_features: ['study_templates'],
       load_last_chart: true,
       client_id: defaultProps.clientId,
@@ -178,62 +165,37 @@ export const TVChartContainer = (props) => {
         // @ts-ignore
         .subscribe('onAutoSaveNeeded', () => tvWidget.saveChartToServer());
 
-        /*
-        var order = tvWidget.chart().createOrderLine()
-        .setText("Compren que esta barateli")
-        .setLineLength(3) 
-        .setLineStyle(0) 
-        .setQuantity("221.235 USDT")
-        .setLineColor("rgb(139,0,0)")
-        order.setPrice(62000);
-        */
-        /*
-        tvWidget.chart().createPositionLine()
-        .onModify(function() {
-          // @ts-ignore  
-          this.setText("onModify called");
-        })
-        .onReverse("onReverse called", function(text) {
-          // @ts-ignore  
-          this.setText(text);
-        })
-        .onClose("onClose called", function(text) {
-          // @ts-ignore  
-          this.setText(text);
-        })
-        .setText("PROFIT: 71.1 (3.31%)")
-        .setQuantity("8.235")
-        .setPrice(63000)
-        .setExtendLeft(false)
-        .setLineStyle(0)
-        .setLineLength(25);
-        */
+      console.log(tvWidget.chart());
+      console.log(widgetOptions);
 
-        /* tvWidget.chart().createExecutionShape()
-        .setText("@1,320.75 Limit Buy 1")
-        .setTooltip("@1,320.75 Limit Buy 1")
-        .setTextColor("rgba(0,255,0,0.5)")
-        .setArrowColor("#0F0")
-        .setDirection("buy")
-        .setTime(1635984899)
-        .setPrice(61512.10);
-
-        tvWidget.chart() */
-
-
+       // @ts-ignore
+      const bars = tvWidget.chart().getSeries().data().m_bars;
+      const lastBar = bars._items[bars._end-1];
+      const lastBarData = {
+        time: lastBar.exTime,
+        open: lastBar.value[1],
+        close: lastBar.value[4],
+        percent: (lastBar.value[1] / 100) * 10000
+      }
+      console.log(bars);
+      console.log(lastBarData);
+      console.log(
+        tvWidget
+          .chart()
+          .createShape(
+            { time: lastBarData.time, channel: 'close' },
+            {
+              shape: 'long_position',
+              lock: true,
+              overrides: {
+                profitLevel: lastBarData.percent * 3,
+                stopLevel: lastBarData.percent * 1.5,
+              },
+            },
+          ),
+      );
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    //const order = tvWidget.chart().createOrderLine()
-    //.setText("Buy Line")
-    //.setLineLength(3) 
-    //.setLineStyle(0) 
-    //.setQuantity("221.235 USDT")
-    //order.setPrice(63000);
-
   }, [market, tvWidgetRef.current]);
-
-  
 
   return <div id={defaultProps.containerId} className={'TVChartContainer'} />;
 };
